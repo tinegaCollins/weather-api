@@ -5,17 +5,22 @@
   <nav>
     <img src="./assets/cytonn_logo.svg" alt="" srcset="">
   </nav>
-  <div class="cordinates">
+  <div class="cordinates" v-if="ifDataAvailable">
     <input type="number" step="0.0001" placeholder="latitude" v-model="latitude">
     <input type="number" step="0.0001" placeholder="longitude" v-model="longitude">
     <button @click="getData">get forecast</button>
+  </div>
+  <div class="data-in-charts">
   </div>
 </section>
 </template>
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+// import { Line } from 'vue-chartjs'
+
+
 const latitude = ref('');
 const longitude = ref('');
 const responseMessage = ref();
@@ -55,7 +60,6 @@ const getData = async ()=>{
         sixAmToSixPm(humidity);
         sixAmToSixPm(cloudcover);
         sixAmToSixPm(windspeed);
-        console.log('done');
       }
       catch {
         if(latitude.value > 90 || latitude.value < -90){
@@ -65,7 +69,7 @@ const getData = async ()=>{
           response = `Error: Longitude must be in range of -180 to 180°. Given:${longitude.value}°`
           displayResponce(response);
         }else {
-          response = 'an error occurred, could`t get the forecast'
+          response = "an error occurred, couldn't get the forecast";
           displayResponce(response);
         }
       }
@@ -78,6 +82,7 @@ const getData = async ()=>{
     displayResponce(response);
   }
 }
+const ifDataAvailable = ref(true);
 </script>
 
 <style>
@@ -94,6 +99,10 @@ body {
 nav {
   height: 7vh;
 }
+section {
+  display: grid;
+  place-items: center;
+}
 nav img {
   height: 80%;
   width: auto;
@@ -104,15 +113,16 @@ section > p {
   top: 0;
   transition: transform 150ms cubic-bezier(0.39, 0.575, 0.565, 1);
   background-color: green;
-  margin-left: 35vw;
+  text-align: center;
   border-radius: 5px;
+  width: 80%;
 }
 .slide-down{
   padding: 5px 10px;
   transform: translateY(20vh);
 }
 .cordinates {
-  height: calc(93vh - 45px);
+  height: calc(93vh - 50px);
   margin-top: 35px;
   display: flex;
   justify-content: center;
@@ -125,9 +135,10 @@ section > p {
 .cordinates > * {
   position: relative;
   bottom: 50px;
+  right: 10px;
 }
 .cordinates input {
-  width: 70%;
+  width: 100%;
   height: 40px;
   outline: none;
   border: 1px solid black;
@@ -147,14 +158,11 @@ section > p {
   cursor: pointer;
 }
 @media screen and (min-width: 600px) {
-  section > p{
-    margin-left: 42vw;
+  section > p {
+    width: max-content;
   }
 }
 @media screen and (min-width: 1024px) {
-  section > p {
-    margin-left: 45vw;
-  }
   .cordinates {
     flex-direction: row;
     column-gap: 30px;
@@ -162,5 +170,9 @@ section > p {
   .cordinates input {
     width: max-content;
   }
+}
+.data-in-charts{
+  width: 100%;
+  background-color: red;
 }
 </style>
