@@ -267,7 +267,7 @@ section > p {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  padding: 20px;
+  padding: 15px 15px 30px 15px;
   height: 60vh;
   position: relative;
 }
@@ -284,7 +284,7 @@ section > p {
   background-color: var(--cytonn-green);
   border: 1px solid black;
   padding: 7px 15px;
-  border-radius: 5px;
+  border-radius: 30px;
   font-size: 1.1rem;
   outline: none;
   appearance: none;
@@ -308,8 +308,12 @@ section > p {
   .cordinates input {
     width: max-content;
   }
+  .data-in-charts {
+    justify-content: space-around;
+  }
   .data-in-charts > * {
-    width: 500px;
+    width: 470px;
+    height: auto;
   }
   .temperature-container , .humidity-container {
     margin-top: 30px;
