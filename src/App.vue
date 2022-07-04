@@ -297,7 +297,6 @@ section > p {
   }
   .data-in-charts > * {
     width: 300px;
-    /* margin-top: 30px; */
   }
 }
 @media screen and (min-width: 1024px) {
