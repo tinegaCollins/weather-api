@@ -107,6 +107,7 @@ const getData = async ()=>{
   }
 }
 const ifDataFetched = ref(true);
+// creating line graphs
 const defaultLabels = ["6am","7am","8am","9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm","6pm"];
 const temperaturesData = computed(()=> ({
   labels : defaultLabels,
@@ -216,7 +217,7 @@ section > p {
   position: absolute;
   top: 0;
   transition: transform 150ms cubic-bezier(0.39, 0.575, 0.565, 1);
-  background-color: green;
+  background-color: var(--cytonn-green);
   text-align: center;
   border-radius: 5px;
   width: 80%;
