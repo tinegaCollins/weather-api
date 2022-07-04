@@ -113,8 +113,10 @@ const temperaturesData = computed(()=> ({
   datasets: [
     {
       label: 'Temperature (°C)',
-      backgroundColor: 'blue',
-      data: temperatures
+      backgroundColor: '#ea5545',
+      data: temperatures,
+      borderColor: '#ea5545',
+      fill: true
     }
   ]
 }))
@@ -132,8 +134,9 @@ const humidityData = computed(()=> ({
   datasets: [
     {
       label: 'Humidity (%)',
-      backgroundColor: 'green',
-      data: humidity
+      backgroundColor: '#87bc45',
+      data: humidity,
+      borderColor: "#87bc45"
     }
   ]
 }))
@@ -149,8 +152,9 @@ const cloudCoverData = computed(()=> ({
   datasets: [
     {
       label: 'Cloud Cover',
-      backgroundColor: 'red',
-      data: cloudcover
+      backgroundColor: '#f46a9b',
+      data: cloudcover,
+      borderColor: '#f46a9b'
     }
   ]
 }))
@@ -166,8 +170,9 @@ const windSpeedData = computed(()=> ({
   datasets: [
     {
       label: 'Wind Speed (Km/h)',
-      backgroundColor: 'yellow',
-      data: windspeed
+      backgroundColor: '#3BADEF',
+      data: windspeed,
+      borderColor: '#3BADEF'
     }
   ]
 }))
