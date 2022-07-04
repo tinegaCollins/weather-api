@@ -5,12 +5,32 @@
   <nav>
     <img src="./assets/cytonn_logo.svg" alt="" srcset="">
   </nav>
-  <div class="cordinates" v-if="ifDataAvailable">
+  <div class="cordinates" v-if="ifDataFetched">
     <input type="number" step="0.0001" placeholder="latitude" v-model="latitude">
     <input type="number" step="0.0001" placeholder="longitude" v-model="longitude">
     <button @click="getData">get forecast</button>
   </div>
-  <div class="data-in-charts">
+  <div class="data-in-charts" v-else>
+    <Line 
+      :chart-data="temperaturesData" 
+      :chart-options="temperaturesOptions" 
+      css-classes="tempetare-container"
+    />
+    <Line 
+      :chart-data="humidityData" 
+      :chart-options="humidityOptions" 
+      css-classes="humidity-container"
+    />
+    <Line
+      :chart-data="cloudCoverData"
+      :chart-options="cloudCoverOptions"
+      css-classes="cloud-cover-container"
+    />
+    <Line 
+      :chart-data="windSpeedData"
+      :chart-options="windSpeedOptions"
+      css-classes="wind-speed-container"
+    />
   </div>
 </section>
 </template>
@@ -18,7 +38,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-// import { Line } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
+import { Chart, LineController, PointElement, LineElement, CategoryScale , LinearScale} from 'chart.js';
+Chart.register(LineController,LineElement, PointElement, CategoryScale, LinearScale);
+
 
 
 const latitude = ref('');
@@ -45,7 +68,6 @@ let temperatures;
 let humidity;
 let cloudcover;
 let windspeed;
-
 let response;
 const getData = async ()=>{
   if(latitude.value != '' && longitude.value != ''){
@@ -60,6 +82,7 @@ const getData = async ()=>{
         sixAmToSixPm(humidity);
         sixAmToSixPm(cloudcover);
         sixAmToSixPm(windspeed);
+        ifDataFetched.value = false;
       }
       catch {
         if(latitude.value > 90 || latitude.value < -90){
@@ -82,8 +105,81 @@ const getData = async ()=>{
     displayResponce(response);
   }
 }
-const ifDataAvailable = ref(true);
+const ifDataFetched = ref(true);
+const defaultLabels = ["6am","7am","8am","9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm","6pm"];
+const temperaturesData = computed(()=> ({
+  labels : defaultLabels,
+  datasets: [
+    {
+      label: 'Temperature (°C)',
+      backgroundColor: 'blue',
+      data: temperatures
+    }
+  ]
+}))
+
+const temperaturesOptions = ref({
+  plugins: {
+    title: {
+      text: 'Temperatures',
+    }
+  },
+})
+
+const humidityData = computed(()=> ({
+  labels : defaultLabels,
+  datasets: [
+    {
+      label: 'Humidity (%)',
+      backgroundColor: 'green',
+      data: humidity
+    }
+  ]
+}))
+const humidityOptions = ref({
+  plugins: {
+    title: {
+      text: 'Humidity',
+    }
+  },
+})
+const cloudCoverData = computed(()=> ({
+  labels : defaultLabels,
+  datasets: [
+    {
+      label: 'Cloud Cover',
+      backgroundColor: 'red',
+      data: cloudcover
+    }
+  ]
+}))
+const cloudCoverOptions = ref({
+  plugins: {
+    title: {
+      text: 'Cloud Cover',
+    }
+  },
+})
+const windSpeedData = computed(()=> ({
+  labels : defaultLabels,
+  datasets: [
+    {
+      label: 'Wind Speed (Km/h)',
+      backgroundColor: 'yellow',
+      data: windspeed
+    }
+  ]
+}))
+const windSpeedOptions = ref({
+  plugins: {
+    title: {
+      text: 'Wind Speed',
+    }
+  },
+})
+
 </script>
+
 
 <style>
 *{
@@ -171,8 +267,17 @@ section > p {
     width: max-content;
   }
 }
-.data-in-charts{
-  width: 100%;
-  background-color: red;
+.data-in-charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  height: 60vh;
+}
+.data-in-charts > * {
+  width: 80vw;
+  height: auto;
 }
 </style>
