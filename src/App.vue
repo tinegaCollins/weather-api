@@ -11,10 +11,11 @@
     <button @click="getData">get forecast</button>
   </div>
   <div class="data-in-charts" v-else>
+    <button @click="back">change coordinates</button>
     <Line 
       :chart-data="temperaturesData" 
       :chart-options="temperaturesOptions" 
-      css-classes="tempetare-container"
+      css-classes="temperature-container"
     />
     <Line 
       :chart-data="humidityData" 
@@ -88,7 +89,7 @@ const getData = async ()=>{
         if(latitude.value > 90 || latitude.value < -90){
           response = `Error: Latitude must be in range of -90 to 90°. Given:${latitude.value}°`
           displayResponce(response);
-        }else if ( longitude.value > 180 || longitude.value < -180){
+        }else if ( longitude.value > 179 || longitude.value < -180){
           response = `Error: Longitude must be in range of -180 to 180°. Given:${longitude.value}°`
           displayResponce(response);
         }else {
@@ -177,7 +178,9 @@ const windSpeedOptions = ref({
     }
   },
 })
-
+const back = ()=>{
+ window.location.reload();
+}
 </script>
 
 
@@ -253,9 +256,43 @@ section > p {
 .cordinates button:hover {
   cursor: pointer;
 }
+.data-in-charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  height: 60vh;
+  position: relative;
+}
+.data-in-charts > * {
+  width: 80vw;
+  height: auto;
+}
+.data-in-charts .temperature-container {
+  margin-top: 20px;
+}
+.data-in-charts button {
+  position: absolute;
+  top: 0;
+  background-color: var(--cytonn-green);
+  border: 1px solid black;
+  padding: 7px 15px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  width: max-content;
+}
 @media screen and (min-width: 600px) {
   section > p {
     width: max-content;
+  }
+  .data-in-charts > * {
+    width: 300px;
+    /* margin-top: 30px; */
   }
 }
 @media screen and (min-width: 1024px) {
@@ -266,18 +303,12 @@ section > p {
   .cordinates input {
     width: max-content;
   }
+  .data-in-charts > * {
+    width: 500px;
+  }
+  .temperature-container , .humidity-container {
+    margin-top: 30px;
+  }
 }
-.data-in-charts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  padding: 20px;
-  height: 60vh;
-}
-.data-in-charts > * {
-  width: 80vw;
-  height: auto;
-}
+
 </style>
