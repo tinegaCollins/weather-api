@@ -268,13 +268,15 @@ section > p {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  padding: 15px 15px 30px 15px;
+  padding: 25px 15px 30px 15px;
   height: 60vh;
   position: relative;
+  gap: 10px;
 }
 .data-in-charts > * {
   width: 80vw;
   height: auto;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .data-in-charts .temperature-container {
   margin-top: 20px;
@@ -309,7 +311,9 @@ section > p {
     width: max-content;
   }
   .data-in-charts {
-    justify-content: space-around;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px;
   }
   .data-in-charts > * {
     width: 470px;
